@@ -10,14 +10,15 @@ import { retry, catchError } from 'rxjs/operators';
 export class ApiService {
 
   // API path
-  base_path = 'https://task-management-l52a5s.herokuapp.com/auth/signin';
+  base_path = 'https://task-management-l52a5s.herokuapp.com';
 
   constructor(private http: HttpClient) { }
 
   // Http Options
   httpOptions = {
     headers: new HttpHeaders({
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.getToken()?? null}`
     })
   }
 
@@ -42,7 +43,7 @@ export class ApiService {
   // Create a new item
   login(item : { username:string , password:string}): Observable<any> {
     return this.http
-      .post<any>(this.base_path, JSON.stringify(item), this.httpOptions)
+      .post<any>(`${this.base_path}/auth/signin`, JSON.stringify(item), this.httpOptions)
       .pipe(
         retry(2),
         catchError(this.handleError)
@@ -59,15 +60,15 @@ export class ApiService {
   //     )
   // }
 
-  // // Get students data
-  // getList(): Observable<Student> {
-  //   return this.http
-  //     .get<Student>(this.base_path)
-  //     .pipe(
-  //       retry(2),
-  //       catchError(this.handleError)
-  //     )
-  // }
+  // Get students data
+  getAllTask(): Observable<any> {
+    return this.http
+      .get<any>(`${this.base_path}/tasks`, this.httpOptions )
+      .pipe(
+        retry(2),
+        catchError(this.handleError)
+      )
+  }
 
   // // Update item by id
   // updateItem(id, item): Observable<Student> {
@@ -88,5 +89,15 @@ export class ApiService {
   //       catchError(this.handleError)
   //     )
   // }
+
+  getToken():string{
+    const findToken = localStorage.getItem("accessToken")
+        
+    if(findToken) {
+      return findToken
+    }else{
+      return null
+    }
+  }
 
 }
