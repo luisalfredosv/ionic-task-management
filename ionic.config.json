@@ -1,0 +1,7 @@
+{
+  "name": "ionic-task-management",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
