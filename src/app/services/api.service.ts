@@ -40,7 +40,7 @@ export class ApiService {
 
 
   // Create a new item
-  createItem(item : { username:string , password:string}): Observable<any> {
+  login(item : { username:string , password:string}): Observable<any> {
     return this.http
       .post<any>(this.base_path, JSON.stringify(item), this.httpOptions)
       .pipe(
