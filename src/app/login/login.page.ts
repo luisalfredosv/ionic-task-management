@@ -3,6 +3,7 @@ import { FormControl, Validators } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
 import { ApiService } from '../services/api.service';
 import { AlertController, IonList, ToastController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -27,6 +28,7 @@ export class LoginPage implements OnInit {
     private apiServ: ApiService,
     public toasterController: ToastController,
     public alertCtrl:AlertController,
+    private router: Router
     ) {}
 
   ngOnInit() {}
@@ -35,7 +37,7 @@ export class LoginPage implements OnInit {
 
   async validateFormLogin() {
     const { username, password } = this.usuario.value;
-    return this.apiServ.createItem({
+    return this.apiServ.login({
       username,
       password
     }).subscribe(async ({accessToken}) => {
@@ -52,9 +54,13 @@ export class LoginPage implements OnInit {
       }); 
   
       toast.present();
-      
+      this.redirectUser()
     });
     
+  }
+  
+  redirectUser(){
+    this.router.navigate(['tabs/tab1']);
   }
 }
 
