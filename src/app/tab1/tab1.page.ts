@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { ApiService } from '../services/api.service';
 
 @Component({
@@ -7,7 +8,10 @@ import { ApiService } from '../services/api.service';
   styleUrls: ['tab1.page.scss'],
 })
 export class Tab1Page {
-  constructor(private apiServ: ApiService) {}
+  constructor(
+    private apiServ: ApiService,
+    private router: Router
+    ) {}
 
   ngOnInit() {
     this.getTask();
@@ -20,6 +24,10 @@ export class Tab1Page {
       console.log('data', data);
       
     });
+  }
+
+  addTask(){
+    this.router.navigate(['./addtask'])
   }
 }
 
